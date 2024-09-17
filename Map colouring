@@ -1,0 +1,38 @@
+def is_safe(node, color, assignment, graph):
+    for neighbor in graph[node]:
+        if assignment[neighbor] == color:
+            return False
+    return True
+def backtrack(node, colors, assignment, graph):
+    if node == len(graph):
+        return True
+    for color in colors:
+        if is_safe(node, color, assignment, graph):
+            assignment[node] = color  # Assign color
+            if backtrack(node + 1, colors, assignment, graph):  # Move to the next region
+                return True
+            assignment[node] = None  # Backtrack if it fails
+    
+    return False
+
+# Main function to solve the map coloring problem
+def map_coloring(graph, num_colors):
+    colors = [f"Color {i+1}" for i in range(num_colors)]
+    assignment = [None] * len(graph)  # List to store color assignments for each region
+
+    if backtrack(0, colors, assignment, graph):
+        return assignment
+    else:
+        return "No solution exists"
+graph = {
+    0: [1, 2],    # Region 0 is adjacent to regions 1 and 2
+    1: [0, 2, 3], # Region 1 is adjacent to regions 0, 2, and 3
+    2: [0, 1],    # Region 2 is adjacent to regions 0 and 1
+    3: [1]        # Region 3 is adjacent to region 1
+}
+num_colors = 3
+solution = map_coloring(graph, num_colors)
+if isinstance(solution, list):
+    print("Coloring of the regions:", solution)
+else:
+    print(solution)
