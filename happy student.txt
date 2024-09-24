@@ -1,0 +1,9 @@
+happy(X) :- pass_history(X), win_lottery(X).
+pass_exam(X) :- study(X).
+pass_exam(X) :- lucky(X).
+
+study(john) :- false.
+lucky(john).
+win_lottery(X) :- lucky(X).
+
+pass_history(X) :- pass_exam(X).
